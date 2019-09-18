@@ -1,10 +1,10 @@
 const Router = require('koa-router');
 const router = new Router();
-const handlers = require('../handlers');
+const message = require('../handlers/message');
 
 router.post('/message/:channelId', async ctx => {
     try {
-        const result = await handlers.addMessage({ ...ctx.request.body }, ctx.params);
+        const result = await message.addMessage({ ...ctx.request.body }, ctx.params);
         ctx.status = result.status;
         ctx.body = result;
     } catch (e) {
@@ -21,7 +21,7 @@ router.post('/message/:channelId', async ctx => {
 
 router.get('/messages/:channelId', async ctx => {
     try {
-        const result = await handlers.getMessagesByChannelId(ctx.params, ctx.request.query);
+        const result = await message.getMessagesByChannelId(ctx.params, ctx.request.query);
         ctx.status = result.status;
         ctx.body = result;
     } catch (e) {
@@ -38,7 +38,7 @@ router.get('/messages/:channelId', async ctx => {
 
 router.put('/message/:messageId', async ctx => {
     try {
-        const result = await handlers.editMessageByMessageId({ ...ctx.request.body }, ctx.params);
+        const result = await message.editMessageByMessageId({ ...ctx.request.body }, ctx.params);
         ctx.status = result.status;
         ctx.body = result;
     } catch (e) {
@@ -55,7 +55,7 @@ router.put('/message/:messageId', async ctx => {
 
 router.del('/message/:messageId', async ctx => {
    try {
-       const result = await handlers.deleteMessageByMessageId(ctx.params);
+       const result = await message.deleteMessageByMessageId(ctx.params);
        ctx.status = result.status;
        ctx.body = result;
    } catch (e) {
