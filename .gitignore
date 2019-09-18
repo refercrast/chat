@@ -1,0 +1,6 @@
+client/node_modules
+client/.idea
+client/package-lock.json
+server/node_modules
+server/.idea
+server/package-lock.json

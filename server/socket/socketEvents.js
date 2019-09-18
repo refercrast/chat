@@ -1,0 +1,4 @@
+module.exports = {
+    GET_CHANNELS: "GET_CHANNELS",
+    CREATE_CHANNEL: "CREATE_CHANNEL"
+};
