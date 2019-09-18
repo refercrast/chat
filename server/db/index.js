@@ -3,5 +3,5 @@ const url = 'mongodb://localhost/chat';
 module.exports = db = monk(url, { useUnifiedTopology: true });
 
 db.then(() => {
-    console.log('Connected correctly to server')
+    console.log('Connected correctly to server');
 });
