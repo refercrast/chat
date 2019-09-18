@@ -4,3 +4,4 @@ client/package-lock.json
 server/node_modules
 server/.idea
 server/package-lock.json
+.idea
