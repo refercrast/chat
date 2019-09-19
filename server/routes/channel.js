@@ -1,25 +1,33 @@
 const Router = require('koa-router');
 const router = new Router();
 const channelHandler = require('../handlers/channel');
+const messageHandler = require('../handlers/message');
 
 router.post('/channel', async ctx => {
     try {
         let { title } = ctx.request.body;
 
         if (!title || title.trim() === '') {
-            throw new Error("Title is required");
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Title is required' };
+            return;
         }
 
         title = title.trim();
 
-        //query case insensitive
-        const isExisting = await channelHandler.getChannelByTitle(title);
-        if (isExisting.length) {
-            throw new Error(`Sorry, channel with "${title}" title is already taken`);
+        const titleIsExisting = await channelHandler.getChannelByTitle(title)
+            .then(channels => channels.some(channel => channel.title.toLowerCase() === title.toLowerCase()));
+
+        if (titleIsExisting) {
+            ctx.status = 400;
+            ctx.body = { errorMessage: `Sorry, channel with '${title}' title is already taken` };
+            return;
         }
 
         if (title.length > 30) {
-            throw new Error("Length of the title should be less than 30 characters");
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Length of the title should be less than 30 characters' };
+            return;
         }
 
         const channel = {
@@ -34,7 +42,7 @@ router.post('/channel', async ctx => {
     } catch (e) {
         console.log('err', e);
         ctx.status = 500;
-        ctx.body = e.message || 'Internal server error';
+        ctx.body = { errorMessage: e.message || 'Internal server error'};
     }
 });
 
@@ -46,7 +54,7 @@ router.get('/channels', async ctx => {
    } catch (e) {
        console.log('err', e);
        ctx.status = 500;
-       ctx.body = e.message || 'Internal server error';
+       ctx.body = { errorMessage: e.message || 'Internal server error'};
    }
 });
 
@@ -58,20 +66,26 @@ router.get('/channel/:channelId', async ctx => {
     } catch (e) {
         console.log('err', e);
         ctx.status = 500;
-        ctx.body = e.message || 'Internal server error';
+        ctx.body = { errorMessage: e.message || 'Internal server error'};
     }
 });
 
 router.del('/channel/:channelId', async ctx => {
     try {
-        const result = await channelHandler.deleteChannel(ctx.params.channelId);
-        // Todo - add deleting all messages that contains current channel
+        const { channelId } = ctx.params;
+
+        const channel = await channelHandler.getChannelById(channelId);
+        if (channel) {
+            await channelHandler.deleteChannel(ctx.params.channelId);
+            channel.messages.map(async message => {
+                await messageHandler.deleteMessage(message._id);
+            });
+        }
         ctx.status = 204;
-        ctx.body = result;
     } catch (e) {
         console.log('err', e);
         ctx.status = 500;
-        ctx.body = e.message || 'Internal server error';
+        ctx.body = { errorMessage: e.message || 'Internal server error'};
     }
 });
 
