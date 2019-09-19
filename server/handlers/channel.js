@@ -5,7 +5,7 @@ exports.getChannels = async () =>  await channelsCollection.find();
 
 exports.getChannelById = async _id => await channelsCollection.findOne({ _id });
 // query case insensitive
-exports.getChannelByTitle = async title => await channelsCollection.find({ title: { $regex: new RegExp(title, "i") } });
+exports.getChannelByTitle = async title => await channelsCollection.count({ title: { $regex: new RegExp(`^${title}$`, "i") } });
 
 exports.addChannel = async channel => await channelsCollection.insert(channel);
 

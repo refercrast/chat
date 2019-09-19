@@ -8,3 +8,7 @@ exports.getMessage = async _id  => await messageCollection.findOne({ _id });
 exports.editMessage = async (_id, message) => await messageCollection.findOneAndUpdate({_id}, { $set: { message } });
 
 exports.deleteMessage = async _id => await messageCollection.findOneAndDelete({ _id });
+
+exports.removeAllByChannel = channelId => messageCollection.remove({
+    channelId
+})
