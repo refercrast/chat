@@ -2,10 +2,21 @@ const Router = require('koa-router');
 const router = new Router();
 const channelHandler = require('../handlers/channel');
 const messageHandler = require('../handlers/message');
+const userHandler = require('../handlers/user');
 
-router.post('/channel', async ctx => {
+const auth = require('../middlewares/auth');
+
+router.post('/channel', auth, async ctx => {
     try {
+        const { _id } = ctx.decoded;
         let { title } = ctx.request.body;
+        let user = await userHandler.getUserById(_id);
+
+        if (!user) {
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Unauthorized access' };
+            return;
+        }
 
         if (!title || title.trim() === '') {
             ctx.status = 400;
@@ -15,8 +26,13 @@ router.post('/channel', async ctx => {
 
         title = title.trim();
 
-        const titleIsExisting = await channelHandler.getChannelByTitle(title)
-            .then(channels => channels.some(channel => channel.title.toLowerCase() === title.toLowerCase()));
+        if (title.length > 30) {
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Length of the title should be less than 30 characters' };
+            return;
+        }
+
+        const titleIsExisting = await channelHandler.getChannelsCount(title);
 
         if (titleIsExisting) {
             ctx.status = 400;
@@ -24,16 +40,10 @@ router.post('/channel', async ctx => {
             return;
         }
 
-        if (title.length > 30) {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Length of the title should be less than 30 characters' };
-            return;
-        }
-
         const channel = {
             title,
-            created: +new Date(),
-            messages: []
+            ownerId: user._id,
+            created: +new Date()
         };
 
         const result = await channelHandler.addChannel(channel);
@@ -70,18 +80,35 @@ router.get('/channel/:channelId', async ctx => {
     }
 });
 
-router.del('/channel/:channelId', async ctx => {
+router.del('/channel/:channelId', auth, async ctx => {
     try {
+        const { _id } = ctx.decoded;
         const { channelId } = ctx.params;
+        let user = await userHandler.getUserById(_id);
+
+        if (!user) {
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Unauthorized access' };
+            return;
+        }
 
         const channel = await channelHandler.getChannelById(channelId);
-        if (channel) {
-            await channelHandler.deleteChannel(ctx.params.channelId);
-            channel.messages.map(async message => {
-                await messageHandler.deleteMessage(message._id);
-            });
+
+        if (!channel) {
+            ctx.status = 404;
+            ctx.body = { errorMessage: 'Channel not found' };
+            return;
         }
-        ctx.status = 204;
+
+        if (channel.ownerId.toString() === user._id.toString()) {
+            await channelHandler.deleteChannel(channelId);
+            messageHandler.deleteAllByChannel(channelId);
+            ctx.status = 204;
+        } else {
+            ctx.status = 403;
+            ctx.body = { errorMessage: 'Permission denied' };
+        }
+
     } catch (e) {
         console.log('err', e);
         ctx.status = 500;
