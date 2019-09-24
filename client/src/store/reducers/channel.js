@@ -1,23 +1,28 @@
-import { CREATE_CHANNEL, CREATE_CHANNEL_REQUEST } from '../actionTypes';
+import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL } from '../actionTypes';
 
 const defaultState = {
     isLoading: false,
     channel: []
 };
 
-export const channels = (state = defaultState, action) => {
+export const channel = (state = defaultState, action) => {
     switch (action.type) {
-        case CREATE_CHANNEL_REQUEST:
+        case ADD_NEW_CHANNEL:
+            return {
+                isLoading: false,
+                channel: action.channel
+            };
+        case DELETE_CHANNEL:
+            return {
+                isLoading: false,
+                channel: action.channel
+            };
+        case CHANNEL_REQUEST:
             return {
                 ...state,
                 isLoading: action.isLoading
             };
-        case CREATE_CHANNEL:
-            return {
-                ...state,
-                channel: action.channel,
-            };
         default:
-            return state
+            return state;
     }
 };

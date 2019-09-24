@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { createChannel } from "../store/actions/channel";
-import { CREATE_CHANNEL } from "../store/actionTypes";
+import { addNewChannel } from "../store/actions/channel";
 
 class AddChannelForm extends PureComponent {
     constructor(props) {
@@ -17,27 +16,26 @@ class AddChannelForm extends PureComponent {
     };
 
     handleSubmit = e => {
-        const { socket } = this.props;
         e.preventDefault();
-        socket.emit(CREATE_CHANNEL, this.state.channelTitle, this.props.createChannel);
         this.setState({ channelTitle: '' });
+        this.props.addNewChannel({ title: this.state.channelTitle });
     };
 
     render() {
         return(
-            <div>
-                <form onSubmit={this.handleSubmit} action="submit">
+            <div className='channel-form'>
+                <form onSubmit={this.handleSubmit} >
                     <input
                         type="text"
                         name='channelTitle'
                         onChange={this.handleChange}
                         value={this.state.channelTitle}
                     />
-                    <button type="submit">Add channel</button>
+                    <button className="channel-button" type="submit">Add channel</button>
                 </form>
             </div>
         )
     }
 }
 
-export default connect(store => ({}),{createChannel})(AddChannelForm)
+export default connect(store => ({}),{ addNewChannel })(AddChannelForm)

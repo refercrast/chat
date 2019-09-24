@@ -1,4 +1,4 @@
-import { SET_CHANNELS, SET_CHANNELS_REQUEST } from '../actionTypes';
+import { GET_CHANNELS, GET_CHANNELS_REQUEST } from '../actionTypes';
 
 const defaultState = {
   isLoading: false,
@@ -7,14 +7,14 @@ const defaultState = {
 
 export const channels = (state = defaultState, action) => {
   switch (action.type) {
-      case SET_CHANNELS_REQUEST:
+      case GET_CHANNELS_REQUEST:
           return {
               ...state,
               isLoading: action.isLoading
           };
-      case SET_CHANNELS:
+      case GET_CHANNELS:
           return {
-              ...state,
+              isLoading: false,
               channels: action.channels,
           };
       default:

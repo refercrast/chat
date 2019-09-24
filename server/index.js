@@ -1,5 +1,6 @@
 require('dotenv').config();
 const koa = require('koa');
+const cors = require('kcors');
 const app = new koa();
 const server = require('http').createServer(app.callback());
 const io = module.exports.io = require('socket.io')(server);
@@ -13,6 +14,16 @@ const user = require('./routes/user');
 const port = process.env.PORT || 4000;
 
 io.on('connection', socketManager);
+
+function checkOriginAgainstWhitelist(ctx) {
+    const requestOrigin = ctx.accept.headers.origin;
+    if (!process.env.CORS_WHITELIST.split(' ').includes(requestOrigin)) {
+        return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`);
+    }
+    return requestOrigin;
+}
+
+app.use(cors({ origin: checkOriginAgainstWhitelist }));
 
 app.use(koaBody());
 
