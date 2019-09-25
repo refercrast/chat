@@ -20,9 +20,11 @@ class ChannelsList extends PureComponent {
 
     render() {
         return (
-            <ul className="channel-list">
-                { this.props.channels.channels.map(channel => <Channel key={channel._id} channel={channel}/>) }
-            </ul>
+            <div className="channel-list-wrapper">
+                <ul className="channel-list">
+                    { this.props.channels.channels.map(channel => <Channel key={channel._id} channel={channel}/>) }
+                </ul>
+            </div>
         )
     }
 }

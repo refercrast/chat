@@ -1,3 +1,8 @@
+:root {
+    --default: #afafaf;
+    --default-blue: #347180;
+}
+
 * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -6,7 +11,7 @@
 body {
     margin: 0;
     font: 300 15px/1 "Open Sans", sans-serif;
-    background-color: #f2f2f2;
+    background-color: #fff;
 }
 
 h1, h2, h3, h4, h5, h6, p {

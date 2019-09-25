@@ -18,7 +18,18 @@ class Channel extends PureComponent{
                     this.props.currentUserId === this.props.channel.ownerId &&
                     <button onClick={this.handleDelete} className='delete-channel-button'/>
                 }
-                {this.props.channel.title}
+                {/*temporary avatar. Need to create new component*/}
+                <div className="channel avatar">
+                    {/*<img alt="channel-avatar"/>*/}
+                </div>
+                <div className="channel-info">
+                    <div className="channel-type"></div>
+                    <div className="channel-title">{this.props.channel.title}</div>
+                    <div className="channel-last-message-wrapper">
+                        <span className="channel-last-message-author">TestAuthor:</span>
+                        <span className="channel-last-message">Test last message</span>
+                    </div>
+                </div>
             </li>
         )
     }

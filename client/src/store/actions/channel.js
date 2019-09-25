@@ -1,6 +1,7 @@
 import api from '../../services/api';
-import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL } from '../actionTypes';
+import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL, TOGGLE_ADD_CHANNEL } from '../actionTypes';
 import { addError, removeError } from "./error";
+import { togglePageAction } from "./pageActions";
 
 export const deleteChannelAction = channel => ({
     type: DELETE_CHANNEL,
@@ -21,11 +22,12 @@ export const addNewChannel = channelInfo => {
     return async dispatch => {
         try {
             dispatch(channelRequest(true));
-            const channel = api.call('post','channel', channelInfo);
+            const channel = await api.call('post','channel', channelInfo);
             dispatch(addNewChannelAction(channel));
+            dispatch(togglePageAction(TOGGLE_ADD_CHANNEL, false));
             dispatch(removeError());
         } catch (e) {
-            const error = e.response;
+            const error = e.response.data;
             dispatch(channelRequest(false));
             dispatch(addError(error.errorMessage));
         }

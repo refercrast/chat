@@ -9,6 +9,7 @@ class AuthPage extends PureComponent {
     }
 
     render() {
+        // To-do add styles for error message
         return <div>
             { this.props.error.message &&
                 <ErrorMessage/>

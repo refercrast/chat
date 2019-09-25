@@ -1,73 +1,22 @@
 .chat {
     display: flex;
-    margin-top: 20px;
+    height: 100%;
 }
 /*=== channel window ===*/
-.channel-window {
-    flex-grow: 1;
-}
+/*.channel-window {*/
+/*    flex-grow: 1;*/
+/*}*/
 
 
 /*=== right sidebar ===*/
-.right-sidebar {
-    margin-left: auto;
+.left-sidebar {
+    margin-right: auto;
+    width: 30%;
+    border-right: 1px solid #27272714;
 }
 
-/*form*/
-.channel-form form {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.channel-form input {
-    width: 100%;
-    line-height: 30px;
-    border: none;
-    padding: 0 20px;
-    margin-bottom: 10px;
-}
-
-.channel-form input:focus {
-    outline: none;
-}
-
-.channel-button {
-    background-color: #fff;
-    border: navajowhite;
-    line-height: 28px;
-    padding: 0 15px;
-    cursor: pointer;
-    margin-left: auto;
-}
-
-.channel-button:focus {
-    outline: none;
-}
-
-.channel-list li {
-    line-height: 25px;
-    border: 1px solid rgba(128, 128, 128, 0.37);
-    text-align: center;
-    position: relative;
-}
-
-.channel-list li + li {
-    margin-top: 10px;
-}
-
-.delete-channel-button {
-    border: none;
-    background: none;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    color: #cc9a9a;
-    font-size: 20px;
-}
-
-.delete-channel-button:focus {
-    outline: none;
+.channel-list-wrapper {
+    overflow: auto;
 }
 
 .channel-list li:hover .delete-channel-button::after {

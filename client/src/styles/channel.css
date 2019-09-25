@@ -1,0 +1,59 @@
+.channel-info {
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 10px;
+}
+
+.channel-last-message-wrapper {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.channel.avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #347180;
+    border-radius: 50%;
+    min-width: 50px;
+}
+
+.channel-list li {
+    line-height: 25px;
+    position: relative;
+    display: flex;
+    padding-left: 5px;
+    cursor: pointer;
+    height: 68px;
+    align-items: center;
+}
+
+.channel-list li:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.delete-channel-button {
+    border: none;
+    background: none;
+    position: absolute;
+    right: 5px;
+    color: #cc9a9a;
+    font-size: 20px;
+}
+
+.delete-channel-button:focus {
+    outline: none;
+}
+
+.channel-last-message-wrapper {
+    color: var(--default);
+}
+
+.channel-last-message-author {
+    font-size: 12px;
+    color: var(--default-blue);
+}
+
+.channel-last-message {
+    font-size: 12px;
+    padding-left: 3px;
+}
