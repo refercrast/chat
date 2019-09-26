@@ -1,21 +1,27 @@
 import api from '../../services/api';
-import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL, TOGGLE_ADD_CHANNEL } from '../actionTypes';
+import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL, TOGGLE_ADD_CHANNEL, SET_DISPLAYED_CHANNEL } from '../actionTypes';
 import { addError, removeError } from "./error";
-import { togglePageAction } from "./pageActions";
+import { togglePageAction } from "./togglePageActions";
 
-export const deleteChannelAction = channel => ({
+const deleteChannelAction = channel => ({
     type: DELETE_CHANNEL,
     channel
 });
 
-export const addNewChannelAction = channel => ({
+const addNewChannelAction = channel => ({
     type: ADD_NEW_CHANNEL,
     channel
 });
 
-export const channelRequest = isLoading => ({
+const channelRequest = isLoading => ({
     type: CHANNEL_REQUEST,
     isLoading
+});
+
+const constSetDisplayedChannelAction = (id, title) => ({
+    type: SET_DISPLAYED_CHANNEL,
+    id,
+    title
 });
 
 export const addNewChannel = channelInfo => {
@@ -47,4 +53,10 @@ export const deleteChannel = channelId => {
             dispatch(addError(error.errorMessage));
         }
     };
+};
+
+export const setDisplayedChannel = (id, title) => {
+    return dispatch => {
+        dispatch(constSetDisplayedChannelAction(id, title));
+    }
 };

@@ -3,7 +3,8 @@ const koa = require('koa');
 const cors = require('kcors');
 const app = new koa();
 const server = require('http').createServer(app.callback());
-const io = module.exports.io = require('socket.io')(server);
+const { io } = require('./socket');
+io.attach(server);
 const koaBody = require('koa-body');
 const socketManager = require('./socket/socketManager');
 

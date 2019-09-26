@@ -1,13 +1,17 @@
 import { combineReducers } from "redux";
 
 import { channels } from "./channels";
+import { displayedChannel } from "./channel";
 import { auth } from './auth';
+import { messages } from "./messages";
 import error from './error';
-import pageActions from './pageActions';
+import togglePageActions from './togglePageActions';
 
 export default combineReducers({
     channels,
     auth,
     error,
-    pageActions
+    togglePageActions,
+    messages,
+    displayedChannel
 });

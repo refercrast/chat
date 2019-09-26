@@ -1,10 +1,10 @@
 import React, { Fragment, PureComponent } from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { addNewChannel } from "../store/actions/channel";
-import { getCurrentActionState } from "../selectors/pageActionsSelector";
-import { TOGGLE_ADD_CHANNEL } from "../store/actionTypes";
-import { togglePageAction } from "../store/actions";
+import { addNewChannel } from "../../store/actions/channel";
+import { getCurrentActionState } from "../../selectors/pageActionsSelector";
+import { TOGGLE_ADD_CHANNEL } from "../../store/actionTypes";
+import { togglePageAction } from "../../store/actions";
 
 class AddChannelForm extends PureComponent {
     constructor(props) {

@@ -1,4 +1,4 @@
-const io = require('../index.js').io;
+const { io } = require('./index');
 const usernames = { };  // users currently connected
 
 module.exports = socket => {

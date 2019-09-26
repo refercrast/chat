@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const getCurrentAction = (store, condition) =>  {
     return {
-        ...store.pageActions,
+        ...store.togglePageActions,
         condition
     };
 };
@@ -11,8 +11,8 @@ export const getCurrentActionState = () => {
     return createSelector(
         [getCurrentAction],
         (currentAction) => {
-            if (currentAction.pageAction.type === currentAction.condition) {
-                return currentAction.pageAction.displayed
+            if (currentAction.togglePageAction.type === currentAction.condition) {
+                return currentAction.togglePageAction.displayed
             } else {
                 return false;
             }

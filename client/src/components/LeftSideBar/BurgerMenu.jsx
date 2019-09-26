@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { togglePageAction } from "../store/actions";
-import { TOGGLE_MENU } from "../store/actionTypes";
+import { togglePageAction } from "../../store/actions";
+import { TOGGLE_MENU } from "../../store/actionTypes";
 
 
 class BurgerMenu extends PureComponent{

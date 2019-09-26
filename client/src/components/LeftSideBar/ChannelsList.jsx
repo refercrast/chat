@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import Channel from "./Channel";
-import { getChannels } from "../store/actions";
+import Channel from "./ChannelItem";
+import { getChannels } from "../../store/actions";
 
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:4000');
@@ -13,7 +13,10 @@ class ChannelsList extends PureComponent {
 
     componentDidMount() {
         this.props.getChannels();
-        socket.on('CHANNEL_UPDATE', () => {
+        socket.on('NEW_CHANNEL', () => {
+            this.props.getChannels();
+        });
+        socket.on('DELETE_CHANNEL', () => {
             this.props.getChannels();
         });
     }
@@ -22,7 +25,7 @@ class ChannelsList extends PureComponent {
         return (
             <div className="channel-list-wrapper">
                 <ul className="channel-list">
-                    { this.props.channels.channels.map(channel => <Channel key={channel._id} channel={channel}/>) }
+                    { this.props.channels.channels.map(channel => <Channel history={this.props.history} key={channel._id} channel={channel}/>) }
                 </ul>
             </div>
         )

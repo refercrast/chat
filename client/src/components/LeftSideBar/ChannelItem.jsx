@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { deleteChannel } from "../store/actions/channel";
+import { deleteChannel, setDisplayedChannel } from "../../store/actions/channel";
+import classnames from "classnames";
+import { getMessages } from "../../store/actions";
 
-class Channel extends PureComponent{
+class ChannelItem extends PureComponent{
     constructor(props) {
         super(props)
     }
@@ -11,9 +13,16 @@ class Channel extends PureComponent{
         this.props.deleteChannel(this.props.channel._id);
     };
 
+    handleSelect = () => {
+        this.props.setDisplayedChannel(this.props.channel._id, this.props.channel.title);
+        this.props.getMessages(this.props.channel._id);
+    };
+
     render() {
         return (
-            <li>
+            <li onClick={this.handleSelect} className={classnames({
+                "active": this.props.displayedChannel.id === this.props.channel._id
+            })}>
                 {
                     this.props.currentUserId === this.props.channel.ownerId &&
                     <button onClick={this.handleDelete} className='delete-channel-button'/>
@@ -36,5 +45,6 @@ class Channel extends PureComponent{
 }
 
 export default connect(store => ({
-    currentUserId: store.auth.user._id
-}),{ deleteChannel })(Channel)
+    currentUserId: store.auth.user._id,
+    displayedChannel: store.displayedChannel
+}),{ deleteChannel, setDisplayedChannel, getMessages })(ChannelItem)

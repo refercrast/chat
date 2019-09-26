@@ -1,6 +1,6 @@
 import { TOGGLE_PAGE_ACTION } from "../actionTypes";
 
-export const togglePageActionAction = (actionType, displayed) => ({
+const togglePageActionAction = (actionType, displayed) => ({
     type: TOGGLE_PAGE_ACTION,
     actionType,
     displayed

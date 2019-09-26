@@ -1,0 +1,58 @@
+.channel-window {
+    width: 70%;
+}
+
+/*message*/
+.message-item {
+    display: flex;
+    margin-left: 10px;
+}
+
+.message-data {
+    margin: 10px 0;
+}
+
+.message.avatar {
+    width: 25px;
+    height: 25px;
+    background-color: #3794ab;
+    border-radius: 50%;
+    margin-top: auto;
+}
+
+.message-author {
+    margin-top: 10px;
+}
+
+.message-container {
+    background-color: #87caaf;
+    margin-left: 10px;
+    border-radius: 6px;
+    padding: 0 15px;
+    position: relative;
+}
+
+.message-item.my-message .message-container {
+    background-color: #0085ca;
+}
+
+.message-container::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 1px;
+    height: 21px;
+    width: 9px;
+    background: #87caaf;
+    border-bottom-right-radius: 15px;
+    transform: rotate(66deg);
+    bottom: -5px;
+}
+
+.message-item.my-message .message-container:after {
+    background: #0085ca;
+}
+
+.message-item + .message-item {
+    margin-top: 10px;
+}

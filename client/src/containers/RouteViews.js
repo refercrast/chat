@@ -23,9 +23,10 @@ const RouteViews = ({ auth }) => {
         return <Switch>
             <Route
                 exatct
-                path="/"
+                path="/chat"
                 render={ () => <HomePage /> }
             />
+            <Redirect to="/chat" />
         </Switch>
     }
 

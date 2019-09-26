@@ -12,7 +12,7 @@
 .channel.avatar {
     width: 50px;
     height: 50px;
-    background-color: #347180;
+    background-color: #3794ab;
     border-radius: 50%;
     min-width: 50px;
 }
@@ -56,4 +56,9 @@
 .channel-last-message {
     font-size: 12px;
     padding-left: 3px;
+}
+
+.channel-list li.active, .active .channel-last-message-wrapper, .active .channel-last-message-author {
+    background-color: var(--default-blue);
+    color: white;
 }

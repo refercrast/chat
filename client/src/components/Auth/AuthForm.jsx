@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { authUser } from "../store/actions";
+import { authUser } from "../../store/actions";
 
 class AuthForm extends PureComponent {
     constructor(props) {

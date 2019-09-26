@@ -2,12 +2,12 @@ import api from '../../services/api';
 import { GET_CHANNELS, GET_CHANNELS_REQUEST } from '../actionTypes';
 import {addError, removeError} from "./error";
 
-export const getChannelsAction = channels => ({
+const getChannelsAction = channels => ({
     type: GET_CHANNELS,
     channels
 });
 
-export const getChannelsRequestAction = isLoading => ({
+const getChannelsRequestAction = isLoading => ({
     type: GET_CHANNELS_REQUEST,
     isLoading
 });

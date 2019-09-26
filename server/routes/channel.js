@@ -3,9 +3,9 @@ const router = new Router();
 const channelHandler = require('../handlers/channel');
 const messageHandler = require('../handlers/message');
 const userHandler = require('../handlers/user');
-const io = require('../index.js').io;
+const { io } = require('../socket');
 
-const { CHANNEL_UPDATE } = require('../socket/socketEvents');
+const { NEW_CHANNEL, DELETE_CHANNEL } = require('../socket/socketEvents');
 
 const auth = require('../middlewares/auth');
 
@@ -51,7 +51,7 @@ router.post('/channel', auth, async ctx => {
 
         const result = await channelHandler.addChannel(channel);
 
-        io.emit(CHANNEL_UPDATE);
+        io.emit(NEW_CHANNEL);
         ctx.status = 201;
         ctx.body = result;
     } catch (e) {
@@ -101,14 +101,14 @@ router.del('/channel/:channelId', auth, async ctx => {
 
         if (!channel) {
             ctx.status = 404;
-            ctx.body = { errorMessage: 'Channel not found' };
+            ctx.body = { errorMessage: 'LeftSideBar not found' };
             return;
         }
 
         if (channel.ownerId.toString() === user._id.toString()) {
             await channelHandler.deleteChannel(channelId);
             messageHandler.deleteAllByChannel(channelId);
-            io.emit(CHANNEL_UPDATE);
+            io.emit(DELETE_CHANNEL);
             ctx.status = 204;
         } else {
             ctx.status = 403;

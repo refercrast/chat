@@ -1,11 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { togglePageAction } from "../store/actions";
+import { togglePageAction } from "../../store/actions";
 import AddChannelForm from "./AddChannelForm";
-import { TOGGLE_MENU, TOGGLE_ADD_CHANNEL } from "../store/actionTypes";
-import { getCurrentActionState } from "../selectors/pageActionsSelector";
-import { logout } from "../store/actions";
+import { TOGGLE_MENU, TOGGLE_ADD_CHANNEL } from "../../store/actionTypes";
+import { getCurrentActionState } from "../../selectors/pageActionsSelector";
+import { logout } from "../../store/actions";
 
 class LeftMenu extends PureComponent {
     constructor(props) {

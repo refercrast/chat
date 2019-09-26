@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import AuthForm from '../components/AuthForm';
+import AuthForm from '../components/Auth/AuthForm';
 import ErrorMessage from '../components/ErrorMessage';
 import { connect } from "react-redux";
 

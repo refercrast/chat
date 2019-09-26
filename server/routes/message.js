@@ -23,7 +23,7 @@ router.post('/message/:channelId', auth, async ctx => {
 
         if (!channel) {
             ctx.status = 404;
-            ctx.body = { errorMessage: 'Channel not found' };
+            ctx.body = { errorMessage: 'LeftSideBar not found' };
             return;
         }
 
@@ -39,7 +39,8 @@ router.post('/message/:channelId', auth, async ctx => {
             message,
             created: +new Date(),
             channelId,
-            ownerId: user._id
+            ownerId: user._id,
+            ownerName: user.username
         };
 
         const result = await messageHandler.addMessage(messageObj);
