@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { getMessages } from "../../store/actions";
 import MessageItem from "./MessageItem";
+import { socket } from "../../services/socket";
 
 class MessagesList extends PureComponent{
     constructor(props) {
         super(props)
+    }
+
+    componentDidMount() {
+        socket.on("USER_HAS_JOINED_CHANNEL", () => {
+            console.log('updated')
+        });
     }
 
     render() {

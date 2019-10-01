@@ -50,7 +50,7 @@ router.post('/channel', auth, async ctx => {
         };
 
         const result = await channelHandler.addChannel(channel);
-
+        await userHandler.addChannel(user._id, result._id);
         io.emit(NEW_CHANNEL);
         ctx.status = 201;
         ctx.body = result;
@@ -60,17 +60,46 @@ router.post('/channel', auth, async ctx => {
         ctx.body = { errorMessage: e.message || 'Internal server error'};
     }
 });
+//
+// router.get('/channels', async ctx => {
+//    try {
+//        const result = await channelHandler.getChannels();
+//        ctx.status = 200;
+//        ctx.body = result;
+//    } catch (e) {
+//        console.log('err', e);
+//        ctx.status = 500;
+//        ctx.body = { errorMessage: e.message || 'Internal server error'};
+//    }
+// });
 
-router.get('/channels', async ctx => {
-   try {
-       const result = await channelHandler.getChannels();
-       ctx.status = 200;
-       ctx.body = result;
-   } catch (e) {
-       console.log('err', e);
-       ctx.status = 500;
-       ctx.body = { errorMessage: e.message || 'Internal server error'};
-   }
+router.get('/channels/:title?', auth, async ctx => {
+    try {
+        const { _id } = ctx.decoded;
+        let title = ctx.params.title;
+        let user = await userHandler.getUserById(_id);
+
+        if (!user) {
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'Unauthorized access' };
+            return;
+        }
+
+        let result = null;
+
+        if (!title) {
+            result = await channelHandler.getChannels(user.channels);
+        } else {
+            result = await channelHandler.getChannelsByTitle(title);
+        }
+
+        ctx.status = 200;
+        ctx.body = result;
+    } catch (e) {
+        console.log('err', e);
+        ctx.status = 500;
+        ctx.body = { errorMessage: e.message || 'Internal server error'};
+    }
 });
 
 router.get('/channel/:channelId', async ctx => {

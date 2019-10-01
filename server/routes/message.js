@@ -23,7 +23,7 @@ router.post('/message/:channelId', auth, async ctx => {
 
         if (!channel) {
             ctx.status = 404;
-            ctx.body = { errorMessage: 'LeftSideBar not found' };
+            ctx.body = { errorMessage: 'Channel not found' };
             return;
         }
 

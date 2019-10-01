@@ -1,19 +1,19 @@
 const { io } = require('./index');
-const usernames = { };  // users currently connected
+const { NEW_USER_CHANNEL, USER_LEFT_CHANNEL, USER_HAS_LEFT_CHANNEL, USER_HAS_JOINED_CHANNEL } = require('./socketEvents');
 
 module.exports = socket => {
 
-    socket.on('new user', (name, chatId) => {
-        socket.username = name;
-        usernames[name] = { room: chatId, id: socket.id }; //save room to the username[user]
+    socket.on(NEW_USER_CHANNEL, (username, channelId) => {
+        const room = `room ${channelId}`;
+        socket.join(room, () => {
+            socket.to(room).emit(USER_HAS_JOINED_CHANNEL, `${username} - has joined the channel`);
+        });
+    });
 
-        socket.room = chatId;
-        socket.join(chatId);
-
-        socket.emit('welcome', socket.room); //to the user
-
-        socket.broadcast.to(socket.room).emit('new user joined', socket.username); //to everyone in the room except the user
-
-        io.emit('updateusers', { usernames, room: socket.room }); // update list of room users
+    socket.on(USER_LEFT_CHANNEL, (username, channelId) => {
+        const room = `room ${channelId}`;
+        socket.leave(room, () => {
+            socket.to(room).emit(USER_HAS_LEFT_CHANNEL, `${username} - has left the channel`);
+        });
     });
 };

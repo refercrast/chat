@@ -8,10 +8,8 @@ class MessageItem extends PureComponent{
     }
 
     render() {
-        console.log(this.props);
         return (
-            <li className="message-item"
-                className={classnames({
+            <li className={classnames({
                     "message-item": true,
                     "my-message": this.props.currentUserId === this.props.message.ownerId
                 })}
