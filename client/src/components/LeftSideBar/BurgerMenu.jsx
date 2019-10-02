@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { togglePageAction } from "../../store/actions";
-import { TOGGLE_MENU } from "../../store/actionTypes";
+import { toggleMenu } from "../../store/actions";
 
 
 class BurgerMenu extends PureComponent{
@@ -10,7 +9,7 @@ class BurgerMenu extends PureComponent{
     }
 
     handleClick = () => {
-      this.props.togglePageAction(TOGGLE_MENU, true);
+      this.props.toggleMenu(true);
     };
 
     render() {
@@ -25,4 +24,4 @@ class BurgerMenu extends PureComponent{
 }
 
 export default connect(store => ({
-}),{ togglePageAction })(BurgerMenu)
+}),{ toggleMenu })(BurgerMenu)

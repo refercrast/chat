@@ -1,10 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { togglePageAction } from "../../store/actions";
+import { toggleMenu, toggleAddChannel } from "../../store/actions";
 import AddChannelForm from "./AddChannelForm";
-import { TOGGLE_MENU, TOGGLE_ADD_CHANNEL } from "../../store/actionTypes";
-import { getCurrentActionState } from "../../selectors/pageActionsSelector";
 import { logout } from "../../store/actions";
 
 class LeftMenu extends PureComponent {
@@ -13,16 +11,17 @@ class LeftMenu extends PureComponent {
     }
 
     handleCloseMenu = () => {
-        this.props.togglePageAction(TOGGLE_MENU, false);
+        this.props.toggleMenu(false);
     };
 
     handleNewChannel = () => {
-        this.props.togglePageAction(TOGGLE_MENU, false);
-        this.props.togglePageAction(TOGGLE_ADD_CHANNEL, true);
+        this.props.toggleMenu(false);
+        this.props.toggleAddChannel(true);
     };
 
     handleLogout = () => {
         this.props.logout();
+        this.props.toggleMenu(false);
     };
 
     render() {
@@ -79,15 +78,4 @@ class LeftMenu extends PureComponent {
     }
 }
 
-const mapStateToProps = () => {
-    const getCurrentAction = getCurrentActionState();
-
-    return (store) => {
-        return {
-            showMenu: getCurrentAction(store, TOGGLE_MENU),
-            username: store.auth.user.username
-        }
-    }
-};
-
-export default connect(mapStateToProps,{ togglePageAction, logout })(LeftMenu)
+export default connect(store => ({ showMenu: store.toggleMenu, username: store.auth.user.username }),{ toggleMenu, toggleAddChannel, logout })(LeftMenu)

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { deleteChannel, setDisplayedChannel } from "../../store/actions/channel";
 import classnames from "classnames";
 import { getMessages } from "../../store/actions";
-import { socket } from "../../services/socket";
 
 class ChannelItem extends PureComponent{
     constructor(props) {

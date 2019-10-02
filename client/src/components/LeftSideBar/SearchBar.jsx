@@ -4,9 +4,7 @@ import BurgerMenu from "./BurgerMenu";
 import { getChannels } from "../../store/actions";
 import SearchBarItem from "./SearchBarItem";
 import classnames from "classnames";
-import { TOGGLE_SEARCH_RESULT } from "../../store/actionTypes";
-import { togglePageAction } from "../../store/actions";
-import { getCurrentActionState } from "../../selectors/pageActionsSelector";
+import { toggleSearchResult } from "../../store/actions";
 
 class SearchBar extends PureComponent{
     constructor(props) {
@@ -26,16 +24,16 @@ class SearchBar extends PureComponent{
                     channels: this.props.channels.channels,
                     filterResult: this.props.channels.channels
                 });
-                this.props.togglePageAction(TOGGLE_SEARCH_RESULT, true);
+                this.props.toggleSearchResult(true);
             });
         }
     };
 
     handleChange = (e) => {
         if (e.target.value === '') {
-            this.props.togglePageAction(TOGGLE_SEARCH_RESULT, false);
+            this.props.toggleSearchResult(false);
         } else {
-            this.props.togglePageAction(TOGGLE_SEARCH_RESULT, true);
+            this.props.toggleSearchResult(true);
         }
 
         this.setState({
@@ -69,15 +67,5 @@ class SearchBar extends PureComponent{
     }
 }
 
-const mapStateToProps = () => {
-    const getCurrentAction = getCurrentActionState();
 
-    return (store) => {
-        return {
-            showSearchResult: getCurrentAction(store, TOGGLE_SEARCH_RESULT),
-            channels: store.channels
-        }
-    }
-};
-
-export default connect(mapStateToProps,{ getChannels, togglePageAction })(SearchBar)
+export default connect(store => ({ showSearchResult: store.toggleSearchResult, channels: store.channels }),{ getChannels, toggleSearchResult })(SearchBar)

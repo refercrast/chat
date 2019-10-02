@@ -1,22 +1,28 @@
-import { TOGGLE_MENU, TOGGLE_ADD_CHANNEL } from "../actionTypes";
+import { TOGGLE_MENU, TOGGLE_ADD_CHANNEL, TOGGLE_SEARCH_RESULT } from "../actionTypes";
 
-export default (state = { togglePageAction: { type: '', displayed: false } }, action) => {
+export const toggleMenu = (state = false, action) => {
     switch (action.type) {
         case TOGGLE_MENU:
-            return {
-                togglePageAction: {
-                        type: action.actionType,
-                        displayed: action.displayed
-                    }
-            };
-        case TOGGLE_ADD_CHANNEL:
-            return {
-                    togglePageAction: {
-                        type: action.actionType,
-                        displayed: action.displayed
-                    }
-            };
+            return action.displayed;
         default:
             return state;
     }
-}
+};
+
+export const toggleAddChannel = (state = false, action) => {
+    switch (action.type) {
+        case TOGGLE_ADD_CHANNEL:
+            return action.displayed;
+        default:
+            return state;
+    }
+};
+
+export const toggleSearchResult = (state = false, action) => {
+    switch (action.type) {
+        case TOGGLE_SEARCH_RESULT:
+            return action.displayed;
+        default:
+            return state;
+    }
+};

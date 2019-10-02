@@ -1,7 +1,7 @@
 import api from '../../services/api';
-import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL, TOGGLE_ADD_CHANNEL, SET_DISPLAYED_CHANNEL } from '../actionTypes';
+import { ADD_NEW_CHANNEL, CHANNEL_REQUEST, DELETE_CHANNEL, SET_DISPLAYED_CHANNEL } from '../actionTypes';
 import { addError, removeError } from "./error";
-import { togglePageAction } from "./togglePageActions";
+import { toggleAddChannel } from "./togglePageActions";
 
 const deleteChannelAction = channel => ({
     type: DELETE_CHANNEL,
@@ -18,7 +18,7 @@ const channelRequest = isLoading => ({
     isLoading
 });
 
-const constSetDisplayedChannelAction = (id, title) => ({
+const setDisplayedChannelAction = (id, title) => ({
     type: SET_DISPLAYED_CHANNEL,
     id,
     title
@@ -30,7 +30,7 @@ export const addNewChannel = channelInfo => {
             dispatch(channelRequest(true));
             const channel = await api.call('post','channel', channelInfo);
             dispatch(addNewChannelAction(channel));
-            dispatch(togglePageAction(TOGGLE_ADD_CHANNEL, false));
+            dispatch(toggleAddChannel(false));
             dispatch(removeError());
         } catch (e) {
             const error = e.response.data;
@@ -57,6 +57,6 @@ export const deleteChannel = channelId => {
 
 export const setDisplayedChannel = (id, title) => {
     return dispatch => {
-        dispatch(constSetDisplayedChannelAction(id, title));
+        dispatch(setDisplayedChannelAction(id, title));
     }
 };
