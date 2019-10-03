@@ -4,11 +4,22 @@ const messageHandler = require('../handlers/message');
 const channelHandler = require('../handlers/channel');
 const userHandler = require('../handlers/user');
 const auth = require('../middlewares/auth');
+const { io } = require('../socket');
+const { NEW_MESSAGE, EDIT_MESSAGE, DELETE_MESSAGE } = require('../socket/socketEvents');
 
 router.post('/message/:channelId', auth, async ctx => {
     try {
         const { _id } = ctx.decoded;
-        let { message } = ctx.request.body;
+        let message = ctx.request.body.message;
+        // one of - [channelAction, user]
+        let messageType = ctx.request.body.messageType;
+
+        if (messageType && messageType !== "channelAction") {
+            ctx.status = 400;
+            ctx.body = { errorMessage: 'incorrect type of message' };
+            return;
+        }
+
         const { channelId } = ctx.params;
 
         let user = await userHandler.getUserById(_id);
@@ -40,11 +51,12 @@ router.post('/message/:channelId', auth, async ctx => {
             created: +new Date(),
             channelId,
             ownerId: user._id,
-            ownerName: user.username
+            ownerName: user.username,
+            messageType: messageType || "user"
         };
 
         const result = await messageHandler.addMessage(messageObj);
-
+        io.to(channelId).emit(NEW_MESSAGE, result);
         ctx.status = 201;
         ctx.body = result;
     } catch (e) {
@@ -112,7 +124,7 @@ router.put('/message/:messageId', auth, async ctx => {
 
         if (currentMessage.ownerId.toString() === user._id.toString()) {
             const result = await messageHandler.editMessage(messageId, message);
-
+            io.to(result.channelId).emit(EDIT_MESSAGE, result);
             ctx.status = 200;
             ctx.body = result;
         } else {
@@ -150,6 +162,7 @@ router.del('/message/:messageId', auth, async ctx => {
 
        if (message.ownerId.toString() === user._id.toString()) {
            await messageHandler.deleteMessage(messageId);
+           io.to(message.channelId).emit(DELETE_MESSAGE);
            ctx.status = 204;
        } else {
            ctx.status = 403;

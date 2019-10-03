@@ -42,18 +42,28 @@ class SearchBar extends PureComponent{
         });
     };
 
+    handleClear = () => {
+        this.setState({ searchInput: '' });
+        this.props.toggleSearchResult(false);
+    };
+
     render() {
         return (
            <div className="search-bar">
                <BurgerMenu />
                <div className="search-field">
-                   <input
-                       onFocus={this.handleFocusInput}
-                       type="text"
-                       placeholder="Search"
-                       onChange={this.handleChange}
-                       value={this.state.searchInput}
-                   />
+                   <div>
+                       <input
+                           onFocus={this.handleFocusInput}
+                           type="text"
+                           placeholder="Search"
+                           onChange={this.handleChange}
+                           value={this.state.searchInput}
+                       />
+                       {this.props.showSearchResult &&
+                       <button onClick={this.handleClear} className='clear-search-button'/>
+                       }
+                   </div>
                    <ul className={classnames({
                            "search-bar-result": true,
                            "show": this.props.showSearchResult

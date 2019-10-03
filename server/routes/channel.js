@@ -60,7 +60,7 @@ router.post('/channel', auth, async ctx => {
         ctx.body = { errorMessage: e.message || 'Internal server error'};
     }
 });
-//
+
 // router.get('/channels', async ctx => {
 //    try {
 //        const result = await channelHandler.getChannels();
@@ -72,8 +72,8 @@ router.post('/channel', auth, async ctx => {
 //        ctx.body = { errorMessage: e.message || 'Internal server error'};
 //    }
 // });
-
-router.get('/channels/:title?', auth, async ctx => {
+//
+router.get('/channels', auth, async ctx => {
     try {
         const { _id } = ctx.decoded;
         let title = ctx.params.title;
@@ -85,13 +85,7 @@ router.get('/channels/:title?', auth, async ctx => {
             return;
         }
 
-        let result = null;
-
-        if (!title) {
-            result = await channelHandler.getChannels(user.channels);
-        } else {
-            result = await channelHandler.getChannelsByTitle(title);
-        }
+        let result = await channelHandler.getChannels(user.channels);
 
         ctx.status = 200;
         ctx.body = result;

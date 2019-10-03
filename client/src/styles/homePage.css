@@ -11,8 +11,9 @@
 /*=== right sidebar ===*/
 .left-sidebar {
     margin-right: auto;
-    width: 30%;
+    min-width: 30%;
     border-right: 1px solid #27272714;
+    position: relative;
 }
 
 .channel-list-wrapper {

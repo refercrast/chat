@@ -26,3 +26,14 @@ export const getMessages = channelId => {
         }
     }
 };
+
+export const addMessage = (channelId, data) => {
+    return async dispatch => {
+        try {
+            await api.call('post',`message/${channelId}`, data);
+        } catch (e) {
+            const error = e.response.data;
+            dispatch(addError(error.errorMessage));
+        }
+    }
+};

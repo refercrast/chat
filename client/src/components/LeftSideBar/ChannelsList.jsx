@@ -11,7 +11,7 @@ class ChannelsList extends PureComponent {
 
     componentDidMount() {
         this.props.getUserChannels().then(() => {
-            socket.emit('add channels', this.props.channels.channels);
+            socket.emit('ADD_CHANNELS', this.props.channels.channels);
         });
     }
 

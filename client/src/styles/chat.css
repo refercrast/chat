@@ -1,5 +1,5 @@
 .channel-window {
-    width: 70%;
+    width: 100%;
 }
 
 /*message*/
@@ -53,8 +53,22 @@
     background: #0085ca;
 }
 
-.message-item + .message-item {
+.channel-window-body ul li + li {
     margin-top: 10px;
+}
+
+.message-item-action {
+    text-align: center;
+}
+
+.message-data-action {
+    background-color: #00000042;
+    height: 25px;
+    display: inline-block;
+    line-height: 25px;
+    padding: 0 10px;
+    border-radius: 11px;
+    color: #fff;
 }
 
 .channel-window-body {
