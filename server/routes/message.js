@@ -2,177 +2,108 @@ const Router = require('koa-router');
 const router = new Router();
 const messageHandler = require('../handlers/message');
 const channelHandler = require('../handlers/channel');
-const userHandler = require('../handlers/user');
 const auth = require('../middlewares/auth');
 const { io } = require('../socket');
 const { NEW_MESSAGE, EDIT_MESSAGE, DELETE_MESSAGE } = require('../socket/socketEvents');
 
-router.post('/message/:channelId', auth, async ctx => {
-    try {
-        const { _id } = ctx.decoded;
-        let message = ctx.request.body.message;
-        // one of - [channelAction, user]
-        let messageType = ctx.request.body.messageType;
+router.post('/message/:channelId', async ctx => {
+    let message = ctx.request.body.message;
 
-        if (messageType && messageType !== "channelAction") {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'incorrect type of message' };
-            return;
-        }
+    // one of - [channelAction, user]
+    let messageType = ctx.request.body.messageType;
 
-        const { channelId } = ctx.params;
-
-        let user = await userHandler.getUserById(_id);
-
-        if (!user) {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Unauthorized access' };
-            return;
-        }
-
-        const channel = await channelHandler.getChannelById(channelId);
-
-        if (!channel) {
-            ctx.status = 404;
-            ctx.body = { errorMessage: 'Channel not found' };
-            return;
-        }
-
-        if (!message || message.trim() === '') {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Message is required' };
-            return;
-        }
-
-        message = message.trim();
-
-        const messageObj = {
-            message,
-            created: +new Date(),
-            channelId,
-            ownerId: user._id,
-            ownerName: user.username,
-            messageType: messageType || "user"
-        };
-
-        const result = await messageHandler.addMessage(messageObj);
-        io.to(channelId).emit(NEW_MESSAGE, result);
-        ctx.status = 201;
-        ctx.body = result;
-    } catch (e) {
-        console.log('error:', e);
-        ctx.status = 500;
-        ctx.body = { errorMessage: e.message || 'Internal server error' };
+    if (messageType && messageType !== "channelAction") {
+        ctx.throw(400, 'Incorrect type of message');
     }
+
+    const { channelId } = ctx.params;
+
+    const channel = await channelHandler.getChannelById(channelId);
+
+    if (!channel) {
+        ctx.throw(404, 'Channel not found');
+    }
+
+    if (!message || message.trim() === '') {
+        ctx.throw(400, 'Message is required');
+    }
+
+    message = message.trim();
+
+    const messageObj = {
+        message,
+        created: +new Date(),
+        channelId,
+        ownerId: ctx.appUser._id,
+        ownerName: ctx.appUser.username,
+        messageType: messageType || "user"
+    };
+
+    const result = await messageHandler.addMessage(messageObj);
+    io.to(channelId).emit(NEW_MESSAGE, result);
+    ctx.status = 201;
+    ctx.body = result;
 });
 
 router.get('/messages/:channelId', async ctx => {
-    try {
-        const { channelId } = ctx.params;
-        const condition = ctx.request.query;
-        let messages = await messageHandler.getMessagesByChannel(channelId);
+    const { channelId } = ctx.params;
+    const condition = ctx.request.query;
+    let messages = await messageHandler.getMessagesByChannel(channelId);
 
-        if (condition.before && condition.after === undefined) {
-            messages = messages.filter(message => message.created < +condition.before);
-        } else if (condition.after && condition.before === undefined) {
-            messages = messages.filter(message => message.created > +condition.after);
-        } else if (condition.after && condition.before) {
-            if (condition.before < condition.after) {
-                ctx.status = 400;
-                ctx.body = { errorMessage: 'Incorrect range of dates' };
-                return;
-            }
-            messages = messages.filter(message => message.created > +condition.after && message.created < +condition.before);
+    if (condition.before && condition.after === undefined) {
+        messages = messages.filter(message => message.created < +condition.before);
+    } else if (condition.after && condition.before === undefined) {
+        messages = messages.filter(message => message.created > +condition.after);
+    } else if (condition.after && condition.before) {
+        if (condition.before < condition.after) {
+            ctx.throw(400, 'Incorrect range of dates');
         }
-
-        ctx.status = 200;
-        ctx.body = messages;
-    } catch (e) {
-        console.log('err', e);
-        ctx.status = 500;
-        ctx.body = { errorMessage: e.message || 'Internal server error' };
+        messages = messages.filter(message => message.created > +condition.after && message.created < +condition.before);
     }
+
+    ctx.status = 200;
+    ctx.body = messages;
 });
 
-router.put('/message/:messageId', auth, async ctx => {
-    try {
-        const { _id } = ctx.decoded;
-        const { message } = ctx.request.body;
-        const { messageId } = ctx.params;
+router.put('/message/:messageId', async ctx => {
+    const { message } = ctx.request.body;
+    const { messageId } = ctx.params;
 
-        let user = await userHandler.getUserById(_id);
+    if (!message || message.trim() === '') {
+        ctx.throw(400, 'Message is required');
+    }
 
-        if (!user) {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Unauthorized access' };
-            return;
-        }
+    const currentMessage = await messageHandler.getMessage(messageId);
 
-        if (!message || message.trim() === '') {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Message is required' };
-            return;
-        }
+    if (!currentMessage) {
+        ctx.throw(404, 'Message not found');
+    }
 
-        const currentMessage = await messageHandler.getMessage(messageId);
-
-        if (!currentMessage) {
-            ctx.status = 404;
-            ctx.body = { errorMessage: 'Message not found' };
-            return;
-        }
-
-        if (currentMessage.ownerId.toString() === user._id.toString()) {
-            const result = await messageHandler.editMessage(messageId, message);
-            io.to(result.channelId).emit(EDIT_MESSAGE, result);
-            ctx.status = 200;
-            ctx.body = result;
-        } else {
-            ctx.status = 400;
-            ctx.body = { errorMessage: 'Permission denied' };
-        }
-
-    } catch (e) {
-        console.log('err', e);
-        ctx.status = 500;
-        ctx.body = { errorMessage: e.message || 'Internal server error' };
+    if (currentMessage.ownerId.toString() === ctx.appUser._id.toString()) {
+        const result = await messageHandler.editMessage(messageId, message);
+        io.to(result.channelId).emit(EDIT_MESSAGE, result);
+        ctx.status = 200;
+        ctx.body = result;
+    } else {
+       ctx.throw(403);
     }
 });
 
 router.del('/message/:messageId', auth, async ctx => {
-   try {
-       const { _id } = ctx.decoded;
-       const { messageId } = ctx.params;
+   const { messageId } = ctx.params;
 
-       const user = await userHandler.getUserById(_id);
+   const message = await messageHandler.getMessage(messageId);
 
-       if (!user) {
-           ctx.status = 400;
-           ctx.body = { errorMessage: 'Unauthorized access' };
-           return;
-       }
+   if (!message) {
+       ctx.throw(404, 'Message not found');
+   }
 
-       const message = await messageHandler.getMessage(messageId);
-
-       if (!message) {
-           ctx.status = 404;
-           ctx.body = { errorMessage: 'Message not found' };
-           return;
-       }
-
-       if (message.ownerId.toString() === user._id.toString()) {
-           await messageHandler.deleteMessage(messageId);
-           io.to(message.channelId).emit(DELETE_MESSAGE);
-           ctx.status = 204;
-       } else {
-           ctx.status = 403;
-           ctx.body = { errorMessage: 'Permission denied' };
-       }
-
-   } catch (e) {
-       console.log('err', e);
-       ctx.status = 500;
-       ctx.body = { errorMessage: e.message || 'Internal server error' };
+   if (message.ownerId.toString() === ctx.appUser._id.toString()) {
+       await messageHandler.deleteMessage(messageId);
+       io.to(message.channelId).emit(DELETE_MESSAGE, messageId);
+       ctx.status = 204;
+   } else {
+       ctx.throw(403);
    }
 });
 
