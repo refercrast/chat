@@ -20,10 +20,10 @@ const AuthForm = (props: AuthFormProps) => {
         <div className="authForm">
             <ul className="auth-links">
                 <li>
-                    <NavLink to='/login' />
+                    <NavLink to='/login' >Login</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/register' />
+                    <NavLink to='/register'>Register</NavLink>
                 </li>
             </ul>
             <form onSubmit={handleSubmit}>
@@ -34,6 +34,8 @@ const AuthForm = (props: AuthFormProps) => {
                         id="input-username"
                         name="username"
                         value={username}
+                        placeholder="Username"
+                        autoComplete="On"
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
@@ -43,7 +45,9 @@ const AuthForm = (props: AuthFormProps) => {
                         type="password"
                         id="input-password"
                         name="password"
+                        placeholder="Password"
                         value={password}
+                        autoComplete="On"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './Resources/Styles/styles.css';
+import './resources/styles/styles.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
-import AuthForm from "./Components/Auth/AuthForm";
+import AuthForm from "./components/auth/AuthForm";
 
 const Application = () => (
     // For test
