@@ -1,8 +1,4 @@
-/*
-    Action types
-*/
-
-// Auth
+/* Action types */
 export enum AuthTypes {
     AUTH_REQUEST = "AUTH_REQUEST",
     AUTH_SUCCESS = "AUTH_SUCCESS",
@@ -10,17 +6,13 @@ export enum AuthTypes {
 }
 
 
-/*
-    Data types
-*/
-
-// Auth
-export interface Auth {
-    token: string
+/* Data types */
+export interface AuthType {
+    token: string | null
 }
 
 export interface AuthState {
-    readonly data: Auth,
+    readonly data: AuthType,
     readonly loading: boolean,
-    readonly error: string
+    readonly error: string | null
 }
