@@ -11,7 +11,17 @@ export const setToken = (token: string) => {
 };
 
 export const call = async (method: string, path: string, data: any) => {
-    const response: any = await axios[method](`${host}/${path}`, data);
+    // @ts-ignore
+    // const response: any = await axios[method](`${host}/${path}`, data);
+    const response: any = axios.post(`${host}/${path}`, {
+        username: 'api',
+        password: 'MY_PASSWORD',
+        grant_type: 'MY_GRANT_TYPE'
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    });
     return response.data;
 };
 

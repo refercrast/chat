@@ -1,7 +1,8 @@
 import { action } from 'typesafe-actions';
 import { AuthTypes, AuthType } from "../types";
 
-export const authRequest = () => action(AuthTypes.AUTH_REQUEST);
+// need to change type of data and add it to the  AuthTypes
+export const authRequest = (data: any) => action(AuthTypes.AUTH_REQUEST, { data });
 
 export const authSuccess = (data: AuthType) => action(AuthTypes.AUTH_SUCCESS, { data });
 

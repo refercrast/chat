@@ -1,14 +1,18 @@
 import React from 'react';
+import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom';
 import './resources/styles/styles.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import AuthForm from "./components/auth/AuthForm";
+import { store } from "./store";
 
 const Application = () => (
-    // For test
     <BrowserRouter>
-        <AuthForm authType="login"/>
+        <Provider store={store} >
+            {/*For test*/}
+            <AuthForm authType="login"/>
+        </Provider>
     </BrowserRouter>
 );
 
