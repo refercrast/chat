@@ -18,7 +18,7 @@ export const authReducer: Reducer<AuthState> = (state = INITIAL_STATE, action) =
             };
         case AuthTypes.AUTH_SUCCESS:
             return {
-                ...state,
+                error: null,
                 loading: false,
                 data: {
                     token: action.payload.data
@@ -26,7 +26,6 @@ export const authReducer: Reducer<AuthState> = (state = INITIAL_STATE, action) =
             };
         case AuthTypes.AUTH_FAILURE:
             return {
-                ...state,
                 loading: false,
                 error: action.payload.error,
                 data: {

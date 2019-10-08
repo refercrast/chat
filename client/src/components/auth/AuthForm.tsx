@@ -5,7 +5,8 @@ import { ApplicationState } from "../../store";
 import { authRequest } from "../../store/actions";
 
 interface StateProps {
-    authType: string
+    authType: string,
+    auth: any
 }
 
 interface DispatchProps {
@@ -33,12 +34,10 @@ const AuthForm = (props: StateProps & DispatchProps) => {
         setPassword('');
     };
 
-    useEffect(() => {
-        // console.log(props)
-    });
-
     return (
         <div className="authForm">
+            {/* only for test */}
+            { props.auth.error && <span>{props.auth.error.errorMessage}</span> }
             <ul className="auth-links">
                 <li>
                     <NavLink to='/login' >Login</NavLink>
