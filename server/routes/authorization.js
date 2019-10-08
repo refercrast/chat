@@ -38,7 +38,7 @@ router.post('/user/login', async ctx => {
 
     if (valid) {
         const token = jwt.sign({ _id: user._id, username }, process.env.SECRET);
-        ctx.status = 201;
+        ctx.status = 200;
         ctx.body = { token };
     } else {
         ctx.throw(400, 'Invalid Username/Password');

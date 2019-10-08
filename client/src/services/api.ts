@@ -12,17 +12,14 @@ export const setToken = (token: string) => {
 
 export const call = async (method: string, path: string, data: any) => {
     // @ts-ignore
-    // const response: any = await axios[method](`${host}/${path}`, data);
-    const response: any = axios.post(`${host}/${path}`, {
-        username: 'api',
-        password: 'MY_PASSWORD',
-        grant_type: 'MY_GRANT_TYPE'
-    }, {
+    const response: any = await axios[method](`${host}/${path}`, data, {
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-Type': 'application/json; charset=UTF-8'
         }
-    });
-    return response.data;
+    })
+    .then((response: any) => ({ response: response.data }))
+    .catch((error: any) => ({ error: error.response.data } ));
+    return response;
 };
 
 export default { call, setToken };
