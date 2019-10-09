@@ -1,7 +1,12 @@
 import apiClient from "./apiClient";
-import { LoginRequestData } from "../interfaces/Auth";
+import { AuthRequestData, AuthResponseData } from "../interfaces/Auth";
 
-export const login = ( data: LoginRequestData ) => {
+export const login = ( data: AuthRequestData ) => {
   const url: string = 'user/login';
-  const response = apiClient.post(url, data);
+  return apiClient.post<AuthResponseData>(url, data);
+};
+
+export const register = ( data: AuthRequestData ) => {
+  const url: string = 'user/register';
+  return apiClient.post<AuthResponseData>(url, data);
 };

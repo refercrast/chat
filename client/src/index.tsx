@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import AuthForm from "./components/auth/AuthForm";
 import { store } from "./store";
 
-const Application = () => (
+const Application: React.FC<{}> = () => (
     <BrowserRouter>
         <Provider store={store} >
             {/*For test*/}

@@ -1,4 +1,4 @@
-let baseUrl: string = 'http://localhost:4000';
+let baseUrl: string = 'http://localhost:4000/';
 import { AxiosRequestConfig } from 'axios';
 
 const config: AxiosRequestConfig = {

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, Store, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { AuthState } from "./types";
+import { AuthState } from "../interfaces";
 
 import rootReducers from './redusers';
 import rootSagas from './sagas';

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
-import { authRequest } from "../../store/actions";
+import { loginActions } from "../../store/actions";
+import { AuthRequestData } from "../../interfaces";
 
 interface StateProps {
     authType: string,
@@ -10,7 +11,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    authRequest(data: any): void
+    loginRequest(data: AuthRequestData): void
 }
 
 const AuthForm = (props: StateProps & DispatchProps) => {
@@ -21,12 +22,9 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     const handleSubmit = (event: any) => {
 
         // need to add types
-        props.authRequest({
-            path: props.authType,
-            data: {
-                username,
-                password
-            }
+        props.loginRequest({
+            username,
+            password
         });
 
         event.preventDefault();
@@ -81,5 +79,5 @@ export default connect(
     (state: ApplicationState) => ({
         auth: state.auth
     }),
-    { authRequest }
+    { loginRequest: loginActions.loginRequest }
 )(AuthForm);
