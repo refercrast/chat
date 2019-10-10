@@ -1,6 +1,7 @@
 export interface AuthRequestData {
     username: string,
-    password: string
+    password: string,
+    path: string
 }
 
 export interface AuthResponseData {

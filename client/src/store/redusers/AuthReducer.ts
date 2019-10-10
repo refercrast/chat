@@ -1,5 +1,5 @@
 import { AuthState } from "../../interfaces";
-import { LoginActionTypes } from "../actions/actionTypes";
+import { AuthActionTypes } from "../actions/actionTypes";
 import { RootAction } from "../types/types";
 
 const INITIAL_STATE: AuthState = {
@@ -10,14 +10,14 @@ const INITIAL_STATE: AuthState = {
     loading: false
 };
 
-export const loginReducer = (state: AuthState = INITIAL_STATE, action: RootAction): AuthState => {
+export const authReducer = (state: AuthState = INITIAL_STATE, action: RootAction): AuthState => {
     switch (action.type) {
-        case LoginActionTypes.LOGIN_REQUEST:
+        case AuthActionTypes.AUTH_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
-        case LoginActionTypes.LOGIN_SUCCESS:
+        case AuthActionTypes.AUTH_SUCCESS:
             return {
                 error: null,
                 loading: false,
@@ -25,7 +25,7 @@ export const loginReducer = (state: AuthState = INITIAL_STATE, action: RootActio
                     token: action.payload.data.token,
                 }
             };
-        case LoginActionTypes.LOGIN_FAILURE:
+        case AuthActionTypes.AUTH_FAILURE:
             return {
                 loading: false,
                 error: action.payload.error,

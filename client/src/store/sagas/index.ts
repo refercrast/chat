@@ -1,10 +1,10 @@
-import { all, takeLatest, takeEvery } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
 
-import { LoginActionTypes } from "../actions/actionTypes";
-import { loginSaga } from "./AuthSaga";
+import { AuthActionTypes } from "../actions/actionTypes";
+import { authSaga } from "./AuthSaga";
 
 export default function* rootSaga() {
     return yield all([
-       takeLatest(LoginActionTypes.LOGIN_REQUEST, loginSaga)
+       takeLatest(AuthActionTypes.AUTH_REQUEST, authSaga)
     ]);
 }

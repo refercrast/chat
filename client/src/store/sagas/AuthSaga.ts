@@ -1,15 +1,14 @@
 import { call, put } from 'redux-saga/effects';
-import { login } from "../../services/auth";
+import { auth } from "../../services/auth";
 
-import { loginActions } from "../actions";
+import { authActions } from "../actions";
 
-
-export function* loginSaga(action: any) {
-    const { username, password } = action.payload.data;
-    const { response, error } = yield call(login, { username, password });
+export function* authSaga(action: any) {
+    const { username, password, path } = action.payload.data;
+    const { response, error } = yield call(auth, { username, password, path });
     if (response) {
-        yield put(loginActions.loginSuccess(response));
+        yield put(authActions.authSuccess(response));
     } else {
-        yield put(loginActions.loginFailure(error));
+        yield put(authActions.authFailure(error));
     }
 }

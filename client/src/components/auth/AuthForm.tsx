@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { loginActions } from "../../store/actions";
+import { authActions } from "../../store/actions";
 import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
 
 interface StateProps {
     authType: string,
-    login: AuthState
+    auth: AuthState
 }
 
 interface DispatchProps {
-    loginRequest(data: AuthRequestData): void
+    authRequest(data: AuthRequestData): void
 }
 
 const AuthForm = (props: StateProps & DispatchProps) => {
@@ -19,9 +19,10 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event: any) => {
-        props.loginRequest({
+        props.authRequest({
             username,
-            password
+            password,
+            path: props.authType
         });
 
         event.preventDefault();
@@ -32,7 +33,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     return (
         <div className="authForm">
             {/* only for test */}
-            { props.login.error && <span>{props.login.error}</span> }
+            { props.auth.error && <span>{props.auth.error}</span> }
             <ul className="auth-links">
                 <li>
                     <NavLink to='/login' >Login</NavLink>
@@ -74,7 +75,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
 
 export default connect(
     (state: ApplicationState) => ({
-        login: state.login
+        auth: state.auth
     }),
-    { loginRequest: loginActions.loginRequest }
+    { authRequest: authActions.authRequest }
 )(AuthForm);

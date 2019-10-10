@@ -1,5 +1,5 @@
 import { AuthState } from "./Auth";
 
 export interface ApplicationState {
-    login: AuthState
+    auth: AuthState
 }
