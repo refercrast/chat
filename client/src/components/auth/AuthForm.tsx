@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { ApplicationState } from "../../store";
 import { loginActions } from "../../store/actions";
-import { AuthRequestData } from "../../interfaces";
+import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
 
 interface StateProps {
     authType: string,
-    auth: any
+    login: AuthState
 }
 
 interface DispatchProps {
@@ -20,8 +19,6 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event: any) => {
-
-        // need to add types
         props.loginRequest({
             username,
             password
@@ -35,7 +32,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     return (
         <div className="authForm">
             {/* only for test */}
-            { props.auth.error && <span>{props.auth.error.errorMessage}</span> }
+            { props.login.error && <span>{props.login.error}</span> }
             <ul className="auth-links">
                 <li>
                     <NavLink to='/login' >Login</NavLink>
@@ -77,7 +74,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
 
 export default connect(
     (state: ApplicationState) => ({
-        auth: state.auth
+        login: state.login
     }),
     { loginRequest: loginActions.loginRequest }
 )(AuthForm);

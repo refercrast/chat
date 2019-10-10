@@ -1,7 +1,7 @@
 export enum LoginActionTypes {
-    LOGIN_REQUEST = "AUTH_REQUEST",
-    LOGIN_SUCCESS = "AUTH_SUCCESS",
-    LOGIN_FAILURE = "AUTH_FAILURE",
+    LOGIN_REQUEST = "LOGIN_REQUEST",
+    LOGIN_SUCCESS = "LOGIN_SUCCESS",
+    LOGIN_FAILURE = "LOGIN_FAILURE",
 }
 
 export enum RegisterActionTypes {

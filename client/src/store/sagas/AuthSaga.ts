@@ -5,11 +5,10 @@ import { loginActions } from "../actions";
 
 
 export function* loginSaga(action: any) {
-    console.log(action)
-    const { path, data } = action.payload.data;
-    const { response, error } = yield call(login, data);
+    const { username, password } = action.payload.data;
+    const { response, error } = yield call(login, { username, password });
     if (response) {
-        yield put(loginActions.loginSuccess(response.token));
+        yield put(loginActions.loginSuccess(response));
     } else {
         yield put(loginActions.loginFailure(error));
     }
