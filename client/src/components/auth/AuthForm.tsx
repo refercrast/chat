@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { authActions } from "../../store/actions";
@@ -18,7 +18,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = useCallback((event: any) => {
         props.authRequest({
             username,
             password,
@@ -28,7 +28,15 @@ const AuthForm = (props: StateProps & DispatchProps) => {
         event.preventDefault();
         setUsername('');
         setPassword('');
-    };
+    },[username, password, props.authType]);
+
+    const setUsernameHandle = useCallback((event: any) => {
+        setUsername(event.target.value)
+    }, [username]);
+
+    const setPasswordHandle = useCallback((event: any) => {
+        setPassword(event.target.value)
+    }, [password]);
 
     return (
         <div className="authForm">
@@ -52,7 +60,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
                         value={username}
                         placeholder="Username"
                         autoComplete="On"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={setUsernameHandle}
                     />
                 </div>
                 <div className="auth-item-field">
@@ -64,7 +72,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
                         placeholder="Password"
                         value={password}
                         autoComplete="On"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={setPasswordHandle}
                     />
                 </div>
                 <button type='submit'>Submit</button>

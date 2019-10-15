@@ -22,7 +22,7 @@ export const authReducer = (state: AuthState = INITIAL_STATE, action: RootAction
                 error: null,
                 loading: false,
                 data: {
-                    token: action.payload.data.token,
+                    token: action.payload.token,
                 }
             };
         case AuthActionTypes.AUTH_FAILURE:
