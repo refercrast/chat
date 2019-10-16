@@ -1,7 +1,5 @@
-import { AuthResponseData } from "./Auth";
-
 export interface AuthState {
-    readonly data: AuthResponseData,
+    readonly token: string | null,
     readonly loading: boolean,
     readonly error: string | null
 }

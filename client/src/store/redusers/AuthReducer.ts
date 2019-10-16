@@ -3,9 +3,7 @@ import { AuthActionTypes } from "../actions/actionTypes";
 import { RootAction } from "../types/types";
 
 const INITIAL_STATE: AuthState = {
-    data: {
-      token: null
-    },
+    token: null,
     error: null,
     loading: false
 };
@@ -21,17 +19,13 @@ export const authReducer = (state: AuthState = INITIAL_STATE, action: RootAction
             return {
                 error: null,
                 loading: false,
-                data: {
-                    token: action.payload.token,
-                }
+                token: action.payload.token,
             };
         case AuthActionTypes.AUTH_FAILURE:
             return {
                 loading: false,
                 error: action.payload.error,
-                data: {
-                    token: null
-                }
+                token: null
             };
         default:
             return state;
