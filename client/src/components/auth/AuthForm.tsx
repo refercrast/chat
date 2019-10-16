@@ -55,7 +55,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
                     <NavLink to='/register'>Register</NavLink>
                 </li>
             </ul>
-            <div className="g-signin2" data-onsuccess="onSignIn"></div>
+            <div>Sign In with google</div>
             <form onSubmit={handleSubmit}>
                 <div className="auth-item-field">
                     <label htmlFor="input-username">Username</label>
