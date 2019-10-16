@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { authActions } from "../../store/actions";
 import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
+import { Google } from "../../services/google";
 
 interface StateProps {
     authType: string,
@@ -38,6 +39,10 @@ const AuthForm = (props: StateProps & DispatchProps) => {
         setPassword(event.target.value)
     }, [password]);
 
+    useEffect(() => {
+       Google.init();
+    });
+
     return (
         <div className="authForm">
             {/* only for test */}
@@ -50,6 +55,7 @@ const AuthForm = (props: StateProps & DispatchProps) => {
                     <NavLink to='/register'>Register</NavLink>
                 </li>
             </ul>
+            <div className="g-signin2" data-onsuccess="onSignIn"></div>
             <form onSubmit={handleSubmit}>
                 <div className="auth-item-field">
                     <label htmlFor="input-username">Username</label>
