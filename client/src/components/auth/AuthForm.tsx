@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { authActions } from "../../store/actions";
 import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
-import { Google } from "../../services/google";
+import { Google } from "../../services/googleAuth";
 
 interface StateProps {
     authType: string,
