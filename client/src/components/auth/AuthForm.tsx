@@ -29,19 +29,23 @@ const AuthForm = (props: StateProps & DispatchProps) => {
         event.preventDefault();
         setUsername('');
         setPassword('');
-    },[username, password, props.authType]);
+    },[username, password, props]);
 
     const setUsernameHandle = useCallback((event: any) => {
         setUsername(event.target.value)
-    }, [username]);
+    }, []);
 
     const setPasswordHandle = useCallback((event: any) => {
         setPassword(event.target.value)
-    }, [password]);
+    }, []);
 
-    useEffect(() => {
-       Google.init();
-    });
+    const handleGoogleSignIn = useCallback( () => {
+        Google.signIn();
+    },[]);
+
+    const handleGoogleSignOut = useCallback( () => {
+        Google.signOut();
+    },[]);
 
     return (
         <div className="authForm">
@@ -55,7 +59,8 @@ const AuthForm = (props: StateProps & DispatchProps) => {
                     <NavLink to='/register'>Register</NavLink>
                 </li>
             </ul>
-            <div>Sign In with google</div>
+            <div onClick={handleGoogleSignIn}>Sign In with google</div>
+            <div onClick={handleGoogleSignOut}>Sign out</div>
             <form onSubmit={handleSubmit}>
                 <div className="auth-item-field">
                     <label htmlFor="input-username">Username</label>
