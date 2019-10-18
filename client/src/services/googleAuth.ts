@@ -1,6 +1,6 @@
-import { GoogleAuthSettings, GoogleSignInOptions } from '../interfaces';
+import { GoogleAuthSettings, GoogleSignInOptions, GoogleUser } from '../interfaces';
 
-class GoogleClass {
+class GoogleAuth {
 
     // need to find types for instance of gapi.auth2
     private _auth2Client: any = null;
@@ -35,13 +35,12 @@ class GoogleClass {
         const client = await this.authClient;
 
         if (!client.isSignedIn.get()) {
-
-            client.signIn(this._sigInOptions)
-                .then((client: any) => {
-                    console.log(client)
-                }).catch((error: any) => {
-                    console.log('ERRROR', error)
-                });
+           const user = await client.signIn(this._sigInOptions);
+           return <GoogleUser>({
+               email: user.w3.U3,
+               firstName: user.w3.ofa,
+               lastName: user.w3.wea
+           });
         }
     }
 
@@ -57,9 +56,9 @@ const settings: GoogleAuthSettings = {
     signInOptions: {
         prompt: 'select_account',
         scope: 'profile email',
-        ux_mode: 'redirect',
-        redirect_uri: 'http://localhost:3000/'
+        // ux_mode: 'redirect',
+        // redirect_uri: 'http://localhost:3000/'
     }
 };
 
-export const Google = new GoogleClass(settings);
+export const Google = new GoogleAuth(settings);

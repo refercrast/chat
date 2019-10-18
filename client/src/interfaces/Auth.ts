@@ -11,11 +11,17 @@ export interface AuthResponseData {
 export interface GoogleSignInOptions {
     prompt: string,
     scope: string,
-    ux_mode: string,
-    redirect_uri: string
+    ux_mode?: string,
+    redirect_uri?: string
 }
 
 export interface GoogleAuthSettings {
     clientId: string,
     signInOptions: GoogleSignInOptions
+}
+
+export interface GoogleUser {
+    email: string,
+    firstName: string,
+    lastName: string
 }

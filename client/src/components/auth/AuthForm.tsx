@@ -40,7 +40,9 @@ const AuthForm = (props: StateProps & DispatchProps) => {
     }, []);
 
     const handleGoogleSignIn = useCallback( () => {
-        Google.signIn();
+        Google.signIn().then((info) => {
+            console.log('From Auth',info)
+        });
     },[]);
 
     const handleGoogleSignOut = useCallback( () => {
