@@ -3,5 +3,6 @@
 @import "base/reset.css";
 
 /* components */
+@import "components/auth.css";
 
 /* pages */

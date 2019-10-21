@@ -16,15 +16,11 @@ router.post('/user/register', async ctx => {
     password = password.trim();
 
     if (!email || !firstName || !password) {
-        ctx.throw(400, 'email or firstName or password shouldn`t be empty');
+        ctx.throw(400, 'Email or firstName or password shouldn`t be empty');
     }
 
-    if (process.env.INCORRECT_EMAILS.split(' ').includes(email) ) {
-        ctx.throw(400, 'incorrect email');
-    }
-    console.log(process.env.INCORRECT_SYMBOLS.indexOf(email))
-    if (email.indexOf(process.env.INCORRECT_SYMBOLS)) {
-        ctx.throw(400, 'incorrect email');
+    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+        ctx.throw(400, 'Email is invalid');
     }
 
     const userIsExisting = await userHandler.getUsersCount(email);

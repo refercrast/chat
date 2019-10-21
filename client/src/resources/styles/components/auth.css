@@ -1,0 +1,39 @@
+.auth-section {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex-wrap: wrap;
+}
+
+.auth-form-wrapper {
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.auth-form {
+    background: #fff;
+    width: 400px;
+    max-height: 90vh;
+    height: 400px;
+    box-shadow: 1px -4px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+}
+
+.auth-links {
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    align-items: center;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.social-buttons.div {
+    height: 10px;
+    line-height: 10px;
+}
