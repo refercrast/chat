@@ -1,3 +1,6 @@
+// form validation
+// error message
+
 import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";

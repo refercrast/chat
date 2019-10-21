@@ -3,7 +3,7 @@ const userCollection = db.get('users');
 
 exports.addUser = user => userCollection.insert(user);
 
-exports.getUserByUserName = username => userCollection.findOne({ username });
+exports.getUserByEmail = email => userCollection.findOne({ email });
 
 exports.getUserById = _id => userCollection.findOne({ _id });
 

@@ -4,14 +4,13 @@ import ReactDOM from 'react-dom';
 import './resources/styles/styles.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
-import AuthForm from "./components/auth/AuthForm";
 import { store } from "./store";
+import RouteViews from "./containers/RouteViews";
 
 const Application: React.FC<{}> = () => (
     <BrowserRouter>
         <Provider store={store} >
-            {/*For test*/}
-            <AuthForm authType="login"/>
+            <RouteViews />
         </Provider>
     </BrowserRouter>
 );
