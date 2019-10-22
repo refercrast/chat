@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { authActions } from "../../store/actions";
 import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
 import { Google } from "../../services/googleAuth";
+import classNames from "classnames";
 
 interface StateProps {
     authType: string,
@@ -57,21 +58,35 @@ const AuthForm = (props: StateProps & DispatchProps) => {
             <div className="auth-form-wrapper">
                 <div className='auth-form'>
                     <ul className="auth-links">
-                        <li>
+                        <li className={classNames({
+                            'login-link': true,
+                            'active': props.authType === 'login'
+                        })}>
                             <NavLink to='/login' >Login</NavLink>
                         </li>
-                        <li>
+                        <li className={classNames({
+                            'register-link': true,
+                            'active': props.authType === 'register'
+                        })}>
                             <NavLink to='/register'>Register</NavLink>
                         </li>
                     </ul>
                     <div className='social-buttons'>
                         <div className='google-button default-button' onClick={handleGoogleSignIn}>
-                            <i className="fab fa-google"/>
-                            <span>Google</span>
+                            <div>
+                                <i className="fab fa-google"/>
+                            </div>
+                            <div className='social-button-text'>
+                                <p>Google</p>
+                            </div>
                         </div>
                         <div className='facebook-button default-button'>
-                            <i className="fab fa-facebook-f"/>
-                            <span>Facebook</span>
+                            <div>
+                                <i className="fab fa-facebook-f"/>
+                            </div>
+                            <div className='social-button-text'>
+                                <p>Facebook</p>
+                            </div>
                         </div>
                     </div>
                     {/*<div onClick={handleGoogleSignOut}>Sign out</div>*/}

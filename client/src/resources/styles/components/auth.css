@@ -18,14 +18,27 @@
     max-height: 90vh;
     height: 400px;
     box-shadow: 1px -4px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.06);
-    border-radius: 10px;
 }
 
 .auth-links {
     display: flex;
-    justify-content: space-around;
     height: 50px;
     align-items: center;
+}
+
+.auth-links li {
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    height: 50px;
+    line-height: 50px;
+
+}
+
+.auth-links li.active {
+    background-color: rgba(255, 0, 0, 0.72);
+    color: #fff;
+    font-weight: bold;
 }
 
 .social-buttons {
@@ -33,7 +46,34 @@
     justify-content: space-around;
 }
 
-.social-buttons.div {
-    height: 10px;
-    line-height: 10px;
+.social-buttons > div {
+    height: 27px;
+    line-height: 27px;
+    width: 130px;
+    color: white;
+    display: flex;
+}
+
+.social-buttons div i {
+    border-right: 1px solid #000;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 30px;
+    text-align: center;
+    line-height: 26px;
+    min-width: max-content;
+}
+
+.google-button {
+    background-color: #d34836;
+}
+
+.facebook-button {
+    background-color: #3b5998;
+}
+
+.social-button-text {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
 }
