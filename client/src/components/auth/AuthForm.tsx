@@ -2,12 +2,12 @@
 // error message
 
 import React, { useState, useCallback, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { authActions } from "../../store/actions";
 import { AuthRequestData, ApplicationState, AuthState } from "../../interfaces";
 import { Google } from "../../services/googleAuth";
-import classNames from "classnames";
+import SocialButton from "./socialButton";
+import AuthLinks from "./authLinks";
 
 interface StateProps {
     authType: string,
@@ -57,66 +57,47 @@ const AuthForm = (props: StateProps & DispatchProps) => {
         <section className='auth-section'>
             <div className="auth-form-wrapper">
                 <div className='auth-form'>
-                    <ul className="auth-links">
-                        <li className={classNames({
-                            'login-link': true,
-                            'active': props.authType === 'login'
-                        })}>
-                            <NavLink to='/login' >Login</NavLink>
-                        </li>
-                        <li className={classNames({
-                            'register-link': true,
-                            'active': props.authType === 'register'
-                        })}>
-                            <NavLink to='/register'>Register</NavLink>
-                        </li>
-                    </ul>
-                    <div className='social-buttons'>
-                        <div className='google-button default-button' onClick={handleGoogleSignIn}>
-                            <div>
-                                <i className="fab fa-google"/>
-                            </div>
-                            <div className='social-button-text'>
-                                <p>Google</p>
-                            </div>
-                        </div>
-                        <div className='facebook-button default-button'>
-                            <div>
-                                <i className="fab fa-facebook-f"/>
-                            </div>
-                            <div className='social-button-text'>
-                                <p>Facebook</p>
-                            </div>
-                        </div>
-                    </div>
-                    {/*<div onClick={handleGoogleSignOut}>Sign out</div>*/}
-                    <form onSubmit={handleSubmit}>
-                        <div className="auth-item-field">
-                            <label htmlFor="input-email">Email</label>
-                            <input
-                                type="text"
-                                id="input-email"
-                                name="email"
-                                value={email}
-                                placeholder="Email"
-                                autoComplete="On"
-                                onChange={setEmailHandler}
-                            />
-                        </div>
-                        <div className="auth-item-field">
-                            <label htmlFor="input-password">Password</label>
-                            <input
-                                type="password"
-                                id="input-password"
-                                name="password"
-                                placeholder="Password"
-                                value={password}
-                                autoComplete="On"
-                                onChange={setPasswordHandler}
-                            />
-                        </div>
-                        <button type='submit'>Submit</button>
-                    </form>
+                   <AuthLinks authType={props.authType} />
+                   <div className='auth-body'>
+                       <div className='social-buttons'>
+                           <div onClick={handleGoogleSignIn} className='google-button default-button'>
+                               <SocialButton iconClass='fa-google' tittle='Google' />
+                           </div>
+                           <div className='facebook-button default-button'>
+                               <SocialButton iconClass='fa-facebook-f' tittle='Facebook' />
+                           </div>
+                       </div>
+                       {/*<div onClick={handleGoogleSignOut}>Sign out</div>*/}
+                       <form onSubmit={handleSubmit}>
+                           <div className='auth-fields'>
+                               <div className="auth-item-field">
+                                   <label htmlFor="input-email">Email</label>
+                                   <input
+                                       type="text"
+                                       id="input-email"
+                                       name="email"
+                                       value={email}
+                                       autoComplete="On"
+                                       onChange={setEmailHandler}
+                                   />
+                               </div>
+                               <div className="auth-item-field">
+                                   <label htmlFor="input-password">Password</label>
+                                   <input
+                                       type="password"
+                                       id="input-password"
+                                       name="password"
+                                       value={password}
+                                       autoComplete="On"
+                                       onChange={setPasswordHandler}
+                                   />
+                               </div>
+                           </div>
+                           <div className='submit-auth default-button'>
+                               <button type='submit'>{props.authType}</button>
+                           </div>
+                       </form>
+                   </div>
                 </div>
             </div>
         </section>

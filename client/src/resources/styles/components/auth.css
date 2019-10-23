@@ -14,9 +14,8 @@
 
 .auth-form {
     background: #fff;
-    width: 400px;
-    max-height: 90vh;
-    height: 400px;
+    width: 450px;
+    height: 580px;
     box-shadow: 1px -4px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.06);
 }
 
@@ -43,15 +42,29 @@
 
 .social-buttons {
     display: flex;
-    justify-content: space-around;
+    margin-top: 40px;
+    border-bottom: 1px solid;
+    position: relative;
+    justify-content: space-between;
+}
+
+.social-buttons::after {
+    content: "OR";
+    position: absolute;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    background: white;
+    padding: 0 5px;
+    left: 50%;
 }
 
 .social-buttons > div {
-    height: 27px;
-    line-height: 27px;
-    width: 130px;
     color: white;
     display: flex;
+    height: 40px;
+    line-height: 40px;
+    width: 195px;
+    margin-bottom: 20px;
 }
 
 .social-buttons div i {
@@ -76,4 +89,57 @@
     text-align: center;
     width: 100%;
     font-weight: bold;
+}
+
+.auth-item-field label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.auth-item-field input {
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #fff;
+    border: 1px none rgba(169, 169, 169, 0.96);
+    border-bottom-style: solid;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+.auth-item-field input:focus {
+    outline: none;
+    border-color: #d34836;
+}
+
+.auth-body {
+    padding: 0 15px;
+}
+
+.social-buttons {
+    margin-bottom: 41px;
+    padding-bottom: 20px;
+}
+
+.auth-item-field + .auth-item-field {
+    margin-top: 30px;
+}
+
+.submit-auth {
+    text-align: right;
+}
+
+.submit-auth {
+    margin-top: 15px;
+}
+
+.submit-auth button {
+    text-transform: uppercase;
+    background-color: #0091B3;
+    color: #fff;
+    border: none;
+    width: 100px;
+    height: 50px;
+    line-height: 30px;
 }

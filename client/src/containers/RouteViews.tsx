@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { ApplicationState, AuthState } from "../interfaces";
-import AuthForm from "../components/auth/AuthForm";
+import AuthPage from "../pages/AuthPage";
 
 interface PropsState {
     auth: AuthState
@@ -14,12 +14,12 @@ const RouteViews = (props: PropsState) => {
                 <Route
                     exact
                     path='/login'
-                    render={() => <AuthForm authType='login'/>}
+                    render={() => <AuthPage authType='login'/>}
                 />
                 <Route
                     exact
                     path='/register'
-                    render={() => <AuthForm authType='register'/>}
+                    render={() => <AuthPage authType='register'/>}
                 />
                 <Redirect to='/login' />
             </Switch>
